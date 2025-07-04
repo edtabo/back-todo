@@ -42,13 +42,7 @@ export class FirebaseAuthGuard implements CanActivate {
 
       const user = await admin.auth().verifyIdToken(token, true);
 
-      if (!user) {
-        throw new UnauthorizedException(
-          this.localizations.getErrorMessages().unauthorized,
-        );
-      }
-
-      if (!user.email) {
+      if (!user || !user.email) {
         throw new UnauthorizedException(
           this.localizations.getErrorMessages().unauthorized,
         );

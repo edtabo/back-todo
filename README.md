@@ -1,98 +1,318 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Domina Backend API
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A NestJS backend application with Firebase authentication and PostgreSQL database using Prisma ORM.
 
-## Description
+## 🚀 Quick Start
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Prerequisites
 
-## Project setup
+- Node.js (v18 or higher)
+- PostgreSQL database
+- Firebase project
 
+### Installation
+
+1. **Clone the repository**
 ```bash
-$ npm install
+git clone <repository-url>
+cd back
 ```
 
-## Compile and run the project
-
+2. **Install dependencies**
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+3. **Environment Configuration**
 
-```bash
-# unit tests
-$ npm run test
+Create a `.env` file in the root directory with the following variables:
 
-# e2e tests
-$ npm run test:e2e
+```env
+# Database Configuration
+DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
 
-# test coverage
-$ npm run test:cov
+# Firebase Configuration
+FIREBASE_PROJECT_ID="your-firebase-project-id"
+FIREBASE_CLIENT_EMAIL="your-firebase-client-email"
+FIREBASE_PRIVATE_KEY="your-firebase-private-key"
 ```
 
-## Deployment
+### Database Setup
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+1. **Install Prisma CLI** (if not already installed)
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm install -g prisma
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2. **Generate Prisma Client**
+```bash
+npx prisma generate
+```
 
-## Resources
+3. **Run Database Migrations**
+```bash
+npx prisma migrate dev
+```
 
-Check out a few resources that may come in handy when working with NestJS:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Firebase Configuration
 
-## Support
+1. **Create a Firebase Project**
+   - Go to [Firebase Console](https://console.firebase.google.com/)
+   - Create a new project or select an existing one
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+2. **Generate Service Account Key**
+   - Go to Project Settings > Service Accounts
+   - Click "Generate new private key"
+   - Download the JSON file
+   - Extract the following values to your `.env` file:
+     - `project_id` → `FIREBASE_PROJECT_ID`
+     - `client_email` → `FIREBASE_CLIENT_EMAIL`
+     - `private_key` → `FIREBASE_PRIVATE_KEY`
 
-## Stay in touch
+### Running the Application
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+# Development mode
+npm run start:dev
 
-## License
+# Production mode
+npm run start:prod
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Debug mode
+npm run start:debug
+```
+
+The application will be available at `http://localhost:3005`
+
+## 📚 API Documentation
+
+### Authentication
+
+All API endpoints require Firebase authentication. Include the Firebase ID token in the Authorization header:
+
+```
+Authorization: Bearer <firebase-id-token>
+```
+
+### Response Format
+
+All API responses follow this format:
+
+```json
+{
+  "success": boolean,
+  "message": string,
+  "data": any
+}
+```
+
+### Endpoints
+
+#### Authentication
+
+##### POST /auth
+Create a new user account.
+
+**Request Body:**
+```json
+{
+  "fullName": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "User created successfully",
+  "data": "user-id"
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "message": "Error message"
+}
+```
+
+#### Tasks
+
+##### POST /tasks
+Create a new task.
+
+**Request Body:**
+```json
+{
+  "title": "string",
+  "description": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Task created successfully",
+  "data": "task-id"
+}
+```
+
+##### GET /tasks
+Get all tasks for the authenticated user.
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Tasks retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "title": "Task title",
+      "description": "Task description",
+      "status": 0,
+      "userId": 1,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+##### GET /tasks/:id
+Get a specific task by ID.
+
+**Parameters:**
+- `id` (number): Task ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Task retrieved successfully",
+  "data": {
+    "id": 1,
+    "title": "Task title",
+    "description": "Task description",
+    "status": 0,
+    "userId": 1,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+##### PATCH /tasks/:id
+Update a task.
+
+**Parameters:**
+- `id` (number): Task ID
+
+**Request Body:**
+```json
+{
+  "title": "string",     // optional
+  "description": "string" // optional
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Task updated successfully",
+  "data": {
+    "id": 1,
+    "title": "Updated title",
+    "description": "Updated description",
+    "status": 0,
+    "userId": 1,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+##### DELETE /tasks/:id
+Delete a task.
+
+**Parameters:**
+- `id` (number): Task ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Task deleted successfully"
+}
+```
+
+## 📁 Project Structure
+
+```
+src/
+├── auth/                 # Authentication module
+│   ├── dto/             # Data transfer objects
+│   ├── entities/        # Database entities
+│   ├── interfaces/      # TypeScript interfaces
+│   ├── queries/         # Database queries
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   └── auth.module.ts
+├── tasks/               # Tasks module
+│   ├── dto/             # Data transfer objects
+│   ├── entities/        # Database entities
+│   ├── interfaces/      # TypeScript interfaces
+│   ├── queries/         # Database queries
+│   ├── tasks.controller.ts
+│   ├── tasks.service.ts
+│   └── tasks.module.ts
+├── commons/             # Shared utilities
+│   ├── interfaces.ts    # Common interfaces
+│   ├── localizations/   # Localization messages
+│   └── queries/         # Shared database queries
+├── guards/              # Authentication guards
+├── prisma/              # Prisma configuration
+├── utils/               # Utility functions
+│   └── firebase.ts      # Firebase configuration
+├── app.module.ts        # Main application module
+└── main.ts             # Application entry point
+```
+
+## 🔧 Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | PostgreSQL connection string | Yes |
+| `FIREBASE_PROJECT_ID` | Firebase project ID | Yes |
+| `FIREBASE_CLIENT_EMAIL` | Firebase service account email | Yes |
+| `FIREBASE_PRIVATE_KEY` | Firebase service account private key | Yes |
+
+## 📝 Database Schema
+
+### Users Table
+- `id` (Primary Key, Auto Increment)
+- `fullName` (String)
+- `email` (String, Unique)
+- `password` (String)
+- `createdAt` (DateTime)
+- `updatedAt` (DateTime)
+
+### Tasks Table
+- `id` (Primary Key, Auto Increment)
+- `title` (String)
+- `description` (String)
+- `status` (Integer, Default: 0)
+  - 0: Todo
+  - 1: In Progress
+  - 2: Done
+- `userId` (Foreign Key to Users)
+- `createdAt` (DateTime)
+- `updatedAt` (DateTime)
