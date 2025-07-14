@@ -17,6 +17,7 @@ export class AuthService {
     let message = this.localizations.getErrorMessages().requestError;
     try {
       const { email, password } = req['user'];
+
       const { fullName } = createAuthDto;
       let next = true;
 

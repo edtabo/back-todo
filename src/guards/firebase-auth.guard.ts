@@ -24,14 +24,22 @@ export class FirebaseAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest<Request>();
-    const { url, method } = req;
+    const { url, method, headers } = req;
 
-    const authorization = req.headers['authorization'];
+    const cleanUrl = url.split('?')[0];
+    const isExcluded = this.excludedRoutes.some(
+      (route) =>
+        cleanUrl.startsWith(route.path) &&
+        method.toLowerCase() === route.method.toLowerCase(),
+    );
+
+    const authorization = headers['authorization'];
 
     if (
       typeof authorization !== 'string' ||
       !authorization.startsWith('Bearer ')
     ) {
+      console.log(' 2222222222222 ');
       throw new UnauthorizedException(
         this.localizations.getErrorMessages().unauthorized,
       );
@@ -42,25 +50,18 @@ export class FirebaseAuthGuard implements CanActivate {
 
       const user = await admin.auth().verifyIdToken(token, true);
 
+      if (isExcluded) {
+        req['user'] = {
+          email: user?.email,
+          password: user?.uid,
+        };
+        return true;
+      }
+
       if (!user || !user.email) {
         throw new UnauthorizedException(
           this.localizations.getErrorMessages().unauthorized,
         );
-      }
-
-      const cleanUrl = url.split('?')[0];
-      const isExcluded = this.excludedRoutes.some(
-        (route) =>
-          cleanUrl.startsWith(route.path) &&
-          method.toLowerCase() === route.method.toLowerCase(),
-      );
-
-      if (isExcluded) {
-        req['user'] = {
-          email: user.email,
-          password: user.uid,
-        };
-        return true;
       }
 
       const userExists = await this.commonQuery.find({

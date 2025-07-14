@@ -34,7 +34,7 @@ export class TasksService {
       return {
         success: next,
         message,
-        data: data?.id,
+        data,
       };
     } catch (error) {
       console.log(error);
