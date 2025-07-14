@@ -8,18 +8,9 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.enableCors({
     origin: ['http://localhost:3000', 'https://front-todo-five.vercel.app'],
-    methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'x-vercel-cookie',
-      'Accept',
-      'Origin',
-      'X-Requested-With',
-    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: '*',
     credentials: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
   });
   app.useGlobalPipes(
     new ValidationPipe({
